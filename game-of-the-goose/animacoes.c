@@ -28,7 +28,7 @@ int main(){
 
 void lePonte(){
     FILE *ponte_file;
-    ponte_file=fopen("sprites/ponte.txt", "r");
+    ponte_file=fopen("sprites/ponte/ponte..txt", "r");
     char cur_line[50];
     while(fgets(cur_line, 105, ponte_file) != NULL){
         strcat(ponte, cur_line);
@@ -37,12 +37,28 @@ void lePonte(){
 
 void lePoco(){
     FILE *poco_file;
-    poco_file=fopen("sprites/poco.txt", "r");
+    poco_file=fopen("sprites/poco/poco.txt", "r");
     char cur_line[10];
     while(fgets(cur_line, 5, poco_file) != NULL){
         strcat(poco, cur_line);
     }
 }
+
+void leGanso(){
+    FILE *ganso_file;
+    ganso_file=fopen("sprites/ganso/ganso1.txt", "r");
+    char cur_line[50];
+    while(fgets(cur_line, 30, ganso_file) != NULL){
+        strcat(ganso1, cur_line);
+    }
+    ganso_file=fopen("sprites/ganso/ganso2.txt", "r");
+    while(fgets(cur_line, 40, ganso_file) != NULL){
+        strcat(ganso2, cur_line);
+    }
+}
+
+
+//animações
 
 void animacaoPonte(){
     printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
@@ -91,19 +107,6 @@ void animacaoPoco(){
             if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>150) break;
         }
         if(spaces>0) spaces--;
-    }
-}
-
-void leGanso(){
-    FILE *ganso_file;
-    ganso_file=fopen("sprites/ganso1.txt", "r");
-    char cur_line[50];
-    while(fgets(cur_line, 30, ganso_file) != NULL){
-        strcat(ganso1, cur_line);
-    }
-    ganso_file=fopen("sprites/ganso2.txt", "r");
-    while(fgets(cur_line, 40, ganso_file) != NULL){
-        strcat(ganso2, cur_line);
     }
 }
 
