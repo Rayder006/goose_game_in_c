@@ -5,7 +5,7 @@
 char ponte[105];
 char poco[5][3];
 char player[4] = {'\\', 'o', '/', '\0'};
-char ganso1[30], ganso2[40];
+char ganso1[50], ganso2[50];
 char casas_andou[13] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '\0'};
 
 void lePonte();
@@ -21,14 +21,18 @@ int main(){
     lePonte();
     leGanso();
 
-    animacaoAndou(1, 1);
+    animacaoPonte();
+    animacaoPoco();
+    animacaoGanso();
+
+    animacaoAndou(5, 6);
 
     return 0;
 }
 
 void lePonte(){
     FILE *ponte_file;
-    ponte_file=fopen("sprites/ponte/ponte..txt", "r");
+    ponte_file=fopen("sprites/ponte/ponte.txt", "r");
     char cur_line[50];
     while(fgets(cur_line, 105, ponte_file) != NULL){
         strcat(ponte, cur_line);
@@ -46,15 +50,17 @@ void lePoco(){
 
 void leGanso(){
     FILE *ganso_file;
-    ganso_file=fopen("sprites/ganso/ganso1.txt", "r");
+    ganso_file=fopen("sprites/gansos/ganso1.txt", "r");
     char cur_line[50];
     while(fgets(cur_line, 30, ganso_file) != NULL){
         strcat(ganso1, cur_line);
     }
-    ganso_file=fopen("sprites/ganso/ganso2.txt", "r");
+    fclose(ganso_file);
+    ganso_file=fopen("sprites/gansos/ganso2.txt", "r");
     while(fgets(cur_line, 40, ganso_file) != NULL){
         strcat(ganso2, cur_line);
     }
+    fclose(ganso_file);
 }
 
 
