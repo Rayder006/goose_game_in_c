@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-#include "sprites/teste_string.c"
+#include "animacoes.c"
 
 int andou;
 
