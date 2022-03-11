@@ -136,15 +136,15 @@ void animacaoGanso(){
 }
 
 void animacaoAndou(int casa_init, int andou_casas){
-    casa_init=1, andou_casas=5;
     printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
-    int spaces=0, frame=1, counter_casa=casa_init;
+    int spaces=0, frame=1, counter_casa=casa_init+1;
     for(int i=0;i<andou_casas*3;i++){
         double time_clock=clock();
         printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
         if((frame)%3!=2){
             printf("\n");
         }
+        if(casa_init>=10) printf(" ");
         for(int j=0;j<spaces;j++){
             printf(" ");
         }
@@ -159,9 +159,9 @@ void animacaoAndou(int casa_init, int andou_casas){
         double time_clock2;
         while(1){
             time_clock2=clock();
-            if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>100) break;
+            if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>1000) break;
         }
-        if((frame%3)!=0)spaces++;
+        if((frame%3)!=0||counter_casa>=10)spaces++;
         else counter_casa++;
         frame++;
     }
