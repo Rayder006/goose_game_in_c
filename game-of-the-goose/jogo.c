@@ -9,7 +9,7 @@ int andou;
 struct Jogador{
     int id;
     char nome[20];
-    unsigned int casa;
+    int casa;
     int stasis_rounds_left;
     unsigned int ultima_casa;
     char direcao; /* pode ser 'f' (frente) ou 't' (tras)*/
@@ -201,6 +201,7 @@ void checaGanso(struct Jogador *structPtr){
 void eventoGanso(struct Jogador *structPtr){
     /*Evento Ganso: Casas específicas que, se um jogador cair, ele pode jogar os dados novamente. */
     printf("Que sorte! O jogador %s caiu numa casa de ganso e poderá jogar de novo!", (*structPtr).nome);
+    fflush(stdin);
     printf("Aperte Enter para jogar os dados novamente.\n");
     getchar();
     andou=dadoAleatorio();
