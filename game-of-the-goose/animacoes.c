@@ -1,18 +1,19 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#include <stdlib.h>
 
 char ponte[109];
 char poco[15];
 char player[4] = {'\\', 'o', '/', '\0'};
 char ganso1[50], ganso2[50];
-char casas_andou[13] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '\0'};
 char albergue[35];
 char prisao1[70], prisao2[70], prisao3[70];
 // char prisao[70][3];
 char morte[800];
 char morte1[20], morte2[20];
-char shrek[600];
+char shrek[470];
+char lab0[470], lab1[470], lab2[470], lab3[470], lab4[470], lab5[470], lab6[470], lab7[470], lab8[470], lab9[470], lab10[470], lab11[470], lab12[470];
 
 void lePonte();
 void animacaoPonte();
@@ -20,15 +21,17 @@ void lePoco();
 void animacaoPoco();
 void leGanso();
 void animacaoGanso();
-void animacaoAndou(num_casas);
+void animacaoAndou(int casa_init, int andou_casas);
+void animacaoAlbergue();
+void animacaoPrisao();
+void leLabirinto();
+void leShrek();
 
-int main(){
-    leSprites();
-    puts(poco);
-    animacaoPoco();
-
-    return 0;
-}
+// int main(){
+//     leSprites();
+//     printf("⠿");
+//     return 0;
+// }
 
 void leSprites(){
     lePonte();
@@ -36,7 +39,89 @@ void leSprites(){
     leAlbergue();
     lePrisao();
     leGanso();
+    leLabirinto();
     leMorte();
+    leShrek();
+}
+
+void leShrek(){
+    FILE *shrek_file;
+    char cur_line[50];
+    shrek_file=fopen("sprites/shrek.txt", "r");
+    while(fgets(cur_line, 470, shrek_file) != NULL){
+        strcat(shrek, cur_line);
+    }
+    fclose(shrek_file);
+}
+
+void leLabirinto(){
+    FILE *labpointer;
+    char cur_line[50];
+    labpointer=fopen("sprites/labirinto/lab0.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab0, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab1.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab1, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab2.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab2, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab3.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab3, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab4.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab4, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab5.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab5, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab6.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab6, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab7.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab7, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab8.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab8, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab9.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab9, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab10.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab10, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab11.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab11, cur_line);
+    }
+    fclose(labpointer);
+    labpointer=fopen("sprites/labirinto/lab12.txt", "r"); 
+    while(fgets(cur_line, 470, labpointer) != NULL){
+        strcat(lab12, cur_line);
+    }
+    fclose(labpointer);
 }
 
 void leMorte(){
@@ -222,8 +307,8 @@ void animacaoAndou(int casa_init, int andou_casas){
             printf("\n");
         }
         for(int j=0;j<andou_casas+1;j++){
-            printf(" %d", casa_init+j);
-
+            if(casa_init+j<=63) printf(" %d", casa_init+j);
+            else printf(" %d", 63-((casa_init+j)-63));
         }
         double time_clock2;
         while(1){
@@ -257,6 +342,59 @@ void animacaoMorte(){
         if(frame%3==0&&!(spaces<4))spaces--;
         frame++;
     }
+    printf("\n\n%s\n\n", morte);
+}
+
+void animacaoAlbergue(){
     printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
-    printf("%s\n\n", morte);
+    int spaces=4;
+    for(int i=0;i<10;i++){
+        double time_clock=clock();
+        printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+        if(i<8) printf("\n\n");
+        else if(i==8) printf("\n      o\n");
+        else if(i==9) printf("      o\n       O\n");
+        puts(albergue);
+        for(int j=0;j<spaces;j++){
+            printf("\n");
+        }
+        if(spaces>-2) printf("%s\n", player);
+        double time_clock2;
+        while(1){
+            time_clock2=clock();
+            if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>330) break;
+        }
+        spaces--;
+    }
+}
+
+void animacaoPrisao(){
+    printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+    int spaces=4, frame=1;
+    for(int i=0;i<11;i++){
+        double time_clock=clock();
+        printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+        for(int j=0;j<4-spaces;j++){
+            printf("\n");
+        }
+        if(frame<6) printf("      %s\n", player);
+        else printf("\n");
+        for(int j=0;j<spaces;j++){
+            printf("\n");
+        }
+        if(frame<8) printf("%s", prisao1);
+        else if(frame==9||frame==8) printf("%s", prisao2);
+        else printf("%s", prisao3);
+        double time_clock2;
+        while(1){
+            time_clock2=clock();
+            if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>400) break;
+        }
+        if(spaces!=0) spaces--;
+        frame++;
+    }
+}
+
+void animacaoLabirinto(){
+
 }

@@ -29,7 +29,7 @@ void eventoGanso(struct Jogador *structPtr);
 
 int main(void){
     lePonte();
-    int num_jogadores, i, rodada=0;
+    int num_jogadores, i, rodada=0, j, controlador=0;
     
     /*Introdução e leitura da quantidade de jogadores (só é permitido de 2 a 4)*/
     printf("Ola! Seja bem vindo ao Jogo do Ganso!\n");
@@ -61,15 +61,31 @@ int main(void){
 
     /*Ciclo onde o jogo acontece até o final*/
     puts("Ok, ja computei os nomes de voces, agora vamos comecar!");
-    while(1){
+    while(controlador!=3){
         for(i=0;i<num_jogadores;i++){
             printf("Vez do jogador %d.\n", jogadores[i].id);
             /* Checa se o jogador está paralisado*/
-            if(jogadores[i].stasis_rounds_left>0){
+            if(jogadores[i].stasis_rounds_left>0 && jogadores[j].casa==31){
                 printf("%s pulou a rodada.\n", jogadores[i].nome);
                 jogadores[i].stasis_rounds_left--;
                 continue;
             }
+            if(jogadores[i].stasis_rounds_left>0 && jogadores[i].casa == 31){
+                // Checa a ultima casa e casa atual de todos os jogadores pra ver se alguém passou pelo poço
+                for(j=0;j<num_jogadores;j++){
+                    if(jogadores[j].ultima_casa<31 && jogadores[j].casa>=31 && i != j){
+                        jogadores[i].casa = jogadores[j].ultima_casa;
+                        jogadores[i].stasis_rounds_left = 0;
+                        printf("O jogador %s foi salvo do poco e agora esta na casa %d\n", jogadores[i].nome, jogadores[i].casa); 
+                        continue;
+                    }
+                }
+                if(jogadores[i].stasis_rounds_left==0) continue;
+                printf("%s esta preso no poco por mais rounds %d.\n", jogadores[i].nome, jogadores[i].stasis_rounds_left-1);
+                jogadores[i].stasis_rounds_left--;
+                continue;
+            }
+            jogadores[i].ultima_casa = jogadores[i].casa;
             puts("Aperte enter para rolar os dados...");
             fflush(stdin);
             getchar();
@@ -79,7 +95,7 @@ int main(void){
             /* Muda a posição do jogador de acordo com sua orientação (pode ser pra frente ou para trás) */
             if(jogadores[i].direcao=='f'){
                 jogadores[i].casa+=andou;
-                if(jogadores[i].casa==63) goto end;
+                if(jogadores[i].casa==63) controlador=3;
                 else if(jogadores[i].casa>63){
                     jogadores[i].casa=63-(jogadores[i].casa-63);
                     jogadores[i].direcao='t';
@@ -100,7 +116,7 @@ int main(void){
         }
     }
 
-end:
+
     printf("\nParabens %s, voce chegou ao jardim dos Gansos! Uhuull!!\n", jogadores[i].nome);
     return 0;
 }
@@ -232,7 +248,7 @@ void evento2(struct Jogador *structPtr){
 void evento3(struct Jogador *structPtr){
     /*Evento 3: Casa 31 - O Poço*/
     printf("O jogador %s caiu no Poco!\nNão poderá jogar ate que alguem o resgate!\n", (*structPtr).nome);
-    (*structPtr).stasis_rounds_left=3;
+    (*structPtr).stasis_rounds_left=4;
 }
 
 void evento4(struct Jogador *structPtr){
