@@ -231,13 +231,19 @@ void eventoGanso(struct Jogador *structPtr){
     printf("Aperte Enter para jogar os dados novamente.\n");
     getchar();
     andou=dadoAleatorio();
-    printf("%s andou %d casas!\n\n", (*structPtr).nome, andou);
-    fflush(stdin);
-    getchar();
 
-    if((*structPtr).direcao=='t') (*structPtr).casa-=andou;
-    else (*structPtr).casa+=andou;
+    if((*structPtr).direcao=='t'){
+        printf("%s voltou %d casas!\n\n", (*structPtr).nome, andou);
+        (*structPtr).casa-=andou;
+    }
+    else {
+        printf("%s andou %d casas!\n\n", (*structPtr).nome, andou);
+        (*structPtr).casa+=andou;
+    }
+
+    fflush(stdin);
     if((*structPtr).casa>63) (*structPtr).casa=63-((*structPtr).casa-63);
+    
     (*structPtr).direcao='f';
     
 
