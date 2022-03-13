@@ -238,7 +238,7 @@ void eventoGanso(struct Jogador *structPtr){
     if((*structPtr).direcao=='t'){
         printf("%s voltou %d casas!\n\n", (*structPtr).nome, andou);
         (*structPtr).casa-=andou;
-        (*structPtr).direcao=='f';
+        (*structPtr).direcao='f';
     }
     else {
         printf("%s andou %d casas!\n\n", (*structPtr).nome, andou);
