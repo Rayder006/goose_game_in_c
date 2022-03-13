@@ -2,8 +2,10 @@
 #include <time.h>
 #include <stdlib.h>
 #include "animacoes.c"
+#include <locale.h>
 
 int andou;
+double time_clock, time_clock2;
 
 /* Declaração das Structs*/
 struct Jogador{
@@ -28,13 +30,16 @@ void evento6(struct Jogador *structPtr);
 void eventoGanso(struct Jogador *structPtr);
 
 int main(void){
-    lePonte();
-    int num_jogadores, i, rodada=0, j, controlador=0;
+    int num_jogadores, i, rodada=0, j, controlador=0, pular;
+    char cheat[8] = {'V', 'a', 'l', 'e', 'r', 'i', 'a', '\0'}; 
     
+    leSprites();  
     /*Introdução e leitura da quantidade de jogadores (só é permitido de 2 a 4)*/
     printf("Ola! Seja bem vindo ao Jogo do Ganso!\n");
+
     while(1){
         puts("Quantos jogadores irao jogar?");
+        fflush(stdin);
         scanf("%d", &num_jogadores);
         if(num_jogadores<2||num_jogadores>4) printf("Opa, perae! Esse jogo so suporta de 2 a 4 jogadores.\n");
         else break;
@@ -52,7 +57,11 @@ int main(void){
         jogadores[i].stasis_rounds_left=0;
         jogadores[i].casa=0;
         jogadores[i].direcao='f';
+        pular=strcmp(cheat, jogadores[i].nome);
 
+        if(pular==0){
+            goto end; /* Goto implementado para ir direto ao final do jogo. É ativado se um dos players se chamar "Valeria" */
+        }
         printf("Oi %s, voce sera o jogador numero %d\n", jogadores[i].nome, jogadores[i].id);
         if (i==num_jogadores-2 && num_jogadores!=2) printf("Finalmente, o ultimo nome:\n");
         else if(i!=num_jogadores-1) printf("Agora o proximo:\n");
@@ -63,6 +72,7 @@ int main(void){
     puts("Ok, ja computei os nomes de voces, agora vamos comecar!");
     while(controlador!=3){
         for(i=0;i<num_jogadores;i++){
+            time_clock=clock();
             printf("Vez do jogador %d.\n", jogadores[i].id);
             /* Checa se o jogador está paralisado*/
             if(jogadores[i].stasis_rounds_left>0 && jogadores[j].casa==31){
@@ -71,7 +81,7 @@ int main(void){
                 continue;
             }
             if(jogadores[i].stasis_rounds_left>0 && jogadores[i].casa == 31){
-                // Checa a ultima casa e casa atual de todos os jogadores pra ver se alguém passou pelo poço
+                /* Checa a ultima casa e casa atual de todos os jogadores pra ver se alguém passou pelo poço */
                 for(j=0;j<num_jogadores;j++){
                     if(jogadores[j].ultima_casa<31 && jogadores[j].casa>=31 && i != j){
                         jogadores[i].casa = jogadores[j].ultima_casa;
@@ -94,6 +104,11 @@ int main(void){
 
             /* Muda a posição do jogador de acordo com sua orientação (pode ser pra frente ou para trás) */
             if(jogadores[i].direcao=='f'){
+                while(1){
+                    time_clock2=clock();
+                    if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>600) break;
+                }
+                animacaoAndou(jogadores[i].casa, andou);
                 jogadores[i].casa+=andou;
                 if(jogadores[i].casa==63) controlador=3;
                 else if(jogadores[i].casa>63){
@@ -111,12 +126,14 @@ int main(void){
             else printf("deu alguma bosta no codigo.\n");
 
             checaEvento(&jogadores[i]);
+            checaGanso(&jogadores[i]);
+            jogadores[i].direcao=='f';
 
             printf("O jogador %s esta agora na %d casa.\n\n", jogadores[i].nome, jogadores[i].casa);
         }
     }
-
-
+end:
+    animacaoGanso();
     printf("\nParabens %s, voce chegou ao jardim dos Gansos! Uhuull!!\n", jogadores[i].nome);
     return 0;
 }
@@ -209,21 +226,27 @@ void checaGanso(struct Jogador *structPtr){
     
     
     default:
-        printf("O jogador %s esta agora na %d casa.\n", (*structPtr).nome, (*structPtr).casa);
         break;
     }
 }
 
 void eventoGanso(struct Jogador *structPtr){
     /*Evento Ganso: Casas específicas que, se um jogador cair, ele pode jogar os dados novamente. */
-    printf("Que sorte! O jogador %s caiu numa casa de ganso e poderá jogar de novo!", (*structPtr).nome);
+    while(1){
+        time_clock2=clock();
+        if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>600) break;
+    }
+    animacaoGanso();
+    printf("Que sorte! %s caiu numa casa de ganso e podera jogar de novo!\n", (*structPtr).nome);
     fflush(stdin);
     printf("Aperte Enter para jogar os dados novamente.\n");
     getchar();
     andou=dadoAleatorio();
-    printf("%s andou %d casas!", (*structPtr).nome, andou);
+    printf("%s andou %d casas!\n\n", (*structPtr).nome, andou);
+    fflush(stdin);
+    getchar();
 
-
+    animacaoAndou((*structPtr).casa, andou);
     if((*structPtr).direcao=='f') (*structPtr).casa+=andou;
     else (*structPtr).casa-=andou;
     
@@ -234,38 +257,56 @@ void eventoGanso(struct Jogador *structPtr){
 
 void evento1(struct Jogador *structPtr){
     /*Evento 1: Casa 6 - A Ponte*/
-    printf("%s chegou à Ponte...\nA Ponte serviu de atalho e o fez chegar rapidamente à casa 12!\n", (*structPtr).nome);
-    (*structPtr).casa=12;
+    fflush(stdin);
+    getchar();
     animacaoPonte();
+    printf("%s chegou a Ponte...\nA Ponte serviu de atalho e o fez chegar rapidamente a casa 12!\n", (*structPtr).nome);
+    (*structPtr).casa=12;
 }
 
 void evento2(struct Jogador *structPtr){
     /*Evento 2: Casa 19 - O Albergue*/
-    printf("O jogador %s chegou ao Albergue...\nEle resolveu descansar e não poderá jogar a próxima rodada!\n", (*structPtr).nome);
+    fflush(stdin);
+    getchar();
+    animacaoAlbergue();
+    printf("O jogador %s chegou ao Albergue...\nEle resolveu descansar e nao podera jogar a proxima rodada!\n", (*structPtr).nome);
     (*structPtr).stasis_rounds_left=1;
 }
 
 void evento3(struct Jogador *structPtr){
     /*Evento 3: Casa 31 - O Poço*/
-    printf("O jogador %s caiu no Poco!\nNão poderá jogar ate que alguem o resgate!\n", (*structPtr).nome);
+    fflush(stdin);
+    getchar();
+    animacaoPoco();
+    printf("O jogador %s caiu no Poco!\nNão podera jogar ate que alguem o resgate!\n", (*structPtr).nome);
     (*structPtr).stasis_rounds_left=4;
 }
 
 void evento4(struct Jogador *structPtr){
     /*Evento 4: Casa 42 - O Labirinto*/
+    fflush(stdin);
+    getchar();
+    animacaoLabirinto();
     printf("O jogador %s chegou ao Labirinto.\nEle se perdeu e acabou voltando a casa 37!\n", (*structPtr).nome);
     (*structPtr).casa=37;
 }
 
 void evento5(struct Jogador *structPtr){
     /*Evento 5: Casa 52 - A Prisão*/
-    printf("O jogador %s encontrou a Prisão!\nPor motivos de sonegacao de impostos, ele nao ficou detido e nao podera jogar por 3 rodadas...\n", (*structPtr).nome);
+    fflush(stdin);
+    getchar();
+    animacaoPrisao;
+    printf("O jogador %s encontrou a Prisao!\nPor motivos de sonegacao de impostos, ele nao ficou detido e nao podera jogar por 3 rodadas...\n", (*structPtr).nome);
     (*structPtr).stasis_rounds_left=3;
 }
 
 void evento6(struct Jogador *structPtr){
     /*Evento 6: Casa 58 - A Morte*/
-    printf("O jogador %s encontrou a Morte...\nO azar bateu em sua porte, e ele terá de recomecar o jogo da casa 1.\n", (*structPtr).nome);
+    fflush(stdin);
+    getchar();
+    animacaoMorte();
+    printf("Ola velho amigo, infelizmente sua hora chegou...\n\nO jogador %d caiu na casa da morte e tera que recomecar da casa 1.\n", (*structPtr).id);
+    getchar();
     (*structPtr).casa=1;
     (*structPtr).direcao='f';
 }

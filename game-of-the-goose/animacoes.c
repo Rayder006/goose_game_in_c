@@ -9,7 +9,6 @@ char player[4] = {'\\', 'o', '/', '\0'};
 char ganso1[50], ganso2[50];
 char albergue[35];
 char prisao1[70], prisao2[70], prisao3[70];
-// char prisao[70][3];
 char morte[800];
 char morte1[20], morte2[20];
 char shrek[470];
@@ -25,13 +24,9 @@ void animacaoAndou(int casa_init, int andou_casas);
 void animacaoAlbergue();
 void animacaoPrisao();
 void leLabirinto();
-void leShrek();
-
-// int main(){
-//     leSprites();
-//     printf("⠿");
-//     return 0;
-// }
+void leAlbergue();
+void lePrisao();
+void leMorte();
 
 void leSprites(){
     lePonte();
@@ -41,7 +36,6 @@ void leSprites(){
     leGanso();
     leLabirinto();
     leMorte();
-    leShrek();
 }
 
 void leShrek(){
@@ -209,14 +203,14 @@ void leGanso(){
 }
 
 
-//animações
+/* animações*/
 
 void animacaoPonte(){
-    printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+    printf("\e[1;1H\e[2J");  /* regex pra limpar a tela; */
     int spaces=0;
     for(int i=0;i<25;i++){
         double time_clock=clock();
-        printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+        printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
         for(int j=0;j<spaces;j++){
             printf(" ");
         }
@@ -232,11 +226,11 @@ void animacaoPonte(){
 }
 
 void animacaoPoco(){
-    printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+    printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
     int spaces=10, stasis_frame=10, falling_frames=1;
     for(int i=0;i<24;i++){
         double time_clock=clock();
-        printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+        printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
         printf("%s", poco);
         for(int j=0;j<spaces;j++){
             printf(" ");
@@ -262,15 +256,15 @@ void animacaoPoco(){
 }
 
 void animacaoGanso(){
-    printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+    printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
 
     int spaces=1, frame=1;
     for(int i=0;i<24;i++){
         double time_clock=clock();
-        printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
-        // for(int j=0;j<spaces;j++){
-        //     printf(" ");
-        // }
+        printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
+        /* for(int j=0;j<spaces;j++){*/
+        /*     printf(" ");*/
+        /* }*/
         if(frame==1){
             printf("%s", ganso1);
             if(spaces%3==0) frame=0;
@@ -283,18 +277,19 @@ void animacaoGanso(){
         double time_clock2;
         while(1){
             time_clock2=clock();
-            if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>180) break;
+            if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>130) break;
         }
         spaces++;
     }
+    printf("\n");
 }
 
 void animacaoAndou(int casa_init, int andou_casas){
-    printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+    printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
     int spaces=0, frame=1, counter_casa=casa_init+1;
     for(int i=0;i<andou_casas*3;i++){
         double time_clock=clock();
-        printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+        printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
         if((frame)%3!=2){
             printf("\n");
         }
@@ -319,21 +314,22 @@ void animacaoAndou(int casa_init, int andou_casas){
         else counter_casa++;
         frame++;
     }
+    printf("\n");
 }
 
 void animacaoMorte(){
-    printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+    printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
     int spaces=13, frame=0;
     for(int i=0;i<42;i++){
         double time_clock=clock();
-        printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+        printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
         if(frame<=36)printf("%s", morte1);
         else printf("%s", morte2);
         for(int j=0;j<spaces;j++){
             printf(" ");
         }
         printf("%s\n", player);
-        //controlador de framerate
+        /*controlador de framerate*/
         double time_clock2;
         while(1){
             time_clock2=clock();
@@ -346,11 +342,11 @@ void animacaoMorte(){
 }
 
 void animacaoAlbergue(){
-    printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+    printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
     int spaces=4;
     for(int i=0;i<10;i++){
         double time_clock=clock();
-        printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+        printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
         if(i<8) printf("\n\n");
         else if(i==8) printf("\n      o\n");
         else if(i==9) printf("      o\n       O\n");
@@ -369,11 +365,11 @@ void animacaoAlbergue(){
 }
 
 void animacaoPrisao(){
-    printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+    printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
     int spaces=4, frame=1;
     for(int i=0;i<11;i++){
         double time_clock=clock();
-        printf("\e[1;1H\e[2J");  //regex pra limpar a tela;
+        printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
         for(int j=0;j<4-spaces;j++){
             printf("\n");
         }
@@ -396,5 +392,64 @@ void animacaoPrisao(){
 }
 
 void animacaoLabirinto(){
-
+    int i, j, frame=1, framecounter=1;
+    printf("\e[1;1H\e[2J");  /*regex pra limpar a tela;*/
+    for(i=0;i<27;i++){
+        if(framecounter%3==0) frame++;
+        double time_clock=clock();
+        switch (frame)
+        {
+        case 1:
+            puts(lab0);
+            break;
+        case 2:
+            puts(lab1);
+            break;
+        case 3:
+            puts(lab2);
+            break;
+        case 4:
+            puts(lab3);
+            break;
+        case 5:
+            puts(lab4);
+            break;
+        case 6:
+            puts(lab5);
+            break;
+        case 7:
+            puts(lab6);
+            break;
+        case 8:
+            puts(lab7);
+            break;
+        case 9:
+            puts(lab8);
+            break;
+        case 10:
+            puts(lab9);
+            break;
+        case 11:
+            puts(lab10);
+            break;
+        case 12:
+            puts(lab11);
+            break;
+        case 13:
+            puts(lab12);
+            break;
+        case 14:
+            puts(lab0);
+            break;
+        
+        default:
+            break;
+        }
+        double time_clock2;
+        while(1){
+            time_clock2=clock();
+            if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>100) break;
+        }
+        framecounter++;
+    }
 }
