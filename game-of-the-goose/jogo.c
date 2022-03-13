@@ -236,7 +236,7 @@ void eventoGanso(struct Jogador *structPtr){
         time_clock2=clock();
         if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>600) break;
     }
-    animacaoGanso();
+    puts(ganso1);
     printf("Que sorte! %s caiu numa casa de ganso e podera jogar de novo!\n", (*structPtr).nome);
     fflush(stdin);
     printf("Aperte Enter para jogar os dados novamente.\n");
@@ -249,6 +249,7 @@ void eventoGanso(struct Jogador *structPtr){
     animacaoAndou((*structPtr).casa, andou);
     if((*structPtr).direcao=='f') (*structPtr).casa+=andou;
     else (*structPtr).casa-=andou;
+    if((*structPtr).casa>63) (*structPtr).casa=63-((*structPtr).casa-63);
     
 
     checaEvento(structPtr);
@@ -295,7 +296,7 @@ void evento5(struct Jogador *structPtr){
     /*Evento 5: Casa 52 - A Prisão*/
     fflush(stdin);
     getchar();
-    animacaoPrisao;
+    animacaoPrisao();
     printf("O jogador %s encontrou a Prisao!\nPor motivos de sonegacao de impostos, ele nao ficou detido e nao podera jogar por 3 rodadas...\n", (*structPtr).nome);
     (*structPtr).stasis_rounds_left=3;
 }
