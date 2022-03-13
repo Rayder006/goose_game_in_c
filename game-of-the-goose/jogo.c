@@ -104,10 +104,6 @@ int main(void){
 
             /* Muda a posição do jogador de acordo com sua orientação (pode ser pra frente ou para trás) */
             if(jogadores[i].direcao=='f'){
-                while(1){
-                    time_clock2=clock();
-                    if(((time_clock2-time_clock)/CLOCKS_PER_SEC)*1000>600) break;
-                }
                 animacaoAndou(jogadores[i].casa, andou);
                 jogadores[i].casa+=andou;
                 if(jogadores[i].casa==63) controlador=3;
@@ -116,17 +112,10 @@ int main(void){
                     jogadores[i].direcao='t';
                 }
             }
-            else if (jogadores[i].direcao=='t'){
-                jogadores[i].casa-=andou;
-                if(jogadores[i].casa<0){
-                    jogadores[i].casa=0-jogadores[i].casa;
-                    jogadores[i].direcao='f';
-                }   
-            }
             else printf("deu alguma bosta no codigo.\n");
 
             checaEvento(&jogadores[i]);
-            checaGanso(&jogadores[i]);
+            checaGanso(&jogadores[i]);        
             jogadores[i].direcao=='f';
 
             printf("O jogador %s esta agora na %d casa.\n\n", jogadores[i].nome, jogadores[i].casa);
@@ -246,10 +235,10 @@ void eventoGanso(struct Jogador *structPtr){
     fflush(stdin);
     getchar();
 
-    animacaoAndou((*structPtr).casa, andou);
-    if((*structPtr).direcao=='f') (*structPtr).casa+=andou;
-    else (*structPtr).casa-=andou;
+    if((*structPtr).direcao=='t') (*structPtr).casa-=andou;
+    else (*structPtr).casa+=andou;
     if((*structPtr).casa>63) (*structPtr).casa=63-((*structPtr).casa-63);
+    (*structPtr).direcao='f';
     
 
     checaEvento(structPtr);
