@@ -4,7 +4,7 @@
 #include "animacoes.c"
 #include <locale.h>
 
-int andou;
+int andou, oadse=1;
 double time_clock, time_clock2;
 
 /* Declaração das Structs*/
@@ -75,7 +75,7 @@ int main(void){
             time_clock=clock();
             printf("Vez do jogador %d.\n", jogadores[i].id);
             /* Checa se o jogador está paralisado*/
-            if(jogadores[i].stasis_rounds_left>0 && jogadores[j].casa==31){
+            if(jogadores[i].stasis_rounds_left>0 && jogadores[j].casa != 31){
                 printf("%s pulou a rodada.\n", jogadores[i].nome);
                 jogadores[i].stasis_rounds_left--;
                 continue;
@@ -113,13 +113,16 @@ int main(void){
                 }
             }
             else {
-                printf("deu alguma bosta no codigo... Estamos resolvendo\n");
+                printf("Deu algo de errado no codigo... Estamos resolvendo\n");
                 jogadores[i].direcao='f';
             }
 
+            if(oadse==1) jogadores[i].casa=19;
+            oadse=0;
             checaEvento(&jogadores[i]);
             checaGanso(&jogadores[i]);        
             jogadores[i].direcao='f';
+            if(jogadores[i].casa==63) controlador=3;
 
             printf("O jogador %s esta agora na %d casa.\n\n", jogadores[i].nome, jogadores[i].casa);
         }
@@ -267,7 +270,7 @@ void evento2(struct Jogador *structPtr){
     getchar();
     animacaoAlbergue();
     printf("O jogador %s chegou ao Albergue...\nEle resolveu descansar e nao podera jogar a proxima rodada!\n", (*structPtr).nome);
-    (*structPtr).stasis_rounds_left=1;
+    structPtr->stasis_rounds_left=1;
 }
 
 void evento3(struct Jogador *structPtr){
