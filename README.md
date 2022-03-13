@@ -1,2 +1,6 @@
 # goose_game_in_c
-Game of the Goose board game in C, trying to make terminal animations.
+
+  Este é um projeto para a disciplina de Computação 1 (programação em C) da UFRJ, período de 2021.2.
+  
+  Nossa proposta é programar o jogo de tabuleiro "Jogo do Ganso" (Game of the Goose) em C usando apenas as bibliotecas explicadas em sala de aula (time.h, string.h, stdio.h...), 
+nos limitando ao terminal padrão (stdout) para qualquer troca de informação entre a máquina e o jogador.
