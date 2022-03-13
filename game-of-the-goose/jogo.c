@@ -112,11 +112,14 @@ int main(void){
                     jogadores[i].direcao='t';
                 }
             }
-            else printf("deu alguma bosta no codigo.\n");
+            else {
+                printf("deu alguma bosta no codigo... Estamos resolvendo\n");
+                jogadores[i].direcao='f';
+            }
 
             checaEvento(&jogadores[i]);
             checaGanso(&jogadores[i]);        
-            jogadores[i].direcao=='f';
+            jogadores[i].direcao='f';
 
             printf("O jogador %s esta agora na %d casa.\n\n", jogadores[i].nome, jogadores[i].casa);
         }
@@ -235,6 +238,7 @@ void eventoGanso(struct Jogador *structPtr){
     if((*structPtr).direcao=='t'){
         printf("%s voltou %d casas!\n\n", (*structPtr).nome, andou);
         (*structPtr).casa-=andou;
+        (*structPtr).direcao=='f';
     }
     else {
         printf("%s andou %d casas!\n\n", (*structPtr).nome, andou);
@@ -243,9 +247,6 @@ void eventoGanso(struct Jogador *structPtr){
 
     fflush(stdin);
     if((*structPtr).casa>63) (*structPtr).casa=63-((*structPtr).casa-63);
-    
-    (*structPtr).direcao='f';
-    
 
     checaEvento(structPtr);
     checaGanso(structPtr);
