@@ -4,7 +4,7 @@
 #include "animacoes.c"
 #include <locale.h>
 
-int andou, oadse=1;
+int andou;
 double time_clock, time_clock2;
 
 /* Declaração das Structs*/
@@ -117,8 +117,6 @@ int main(void){
                 jogadores[i].direcao='f';
             }
 
-            if(oadse==1) jogadores[i].casa=19;
-            oadse=0;
             checaEvento(&jogadores[i]);
             checaGanso(&jogadores[i]);        
             jogadores[i].direcao='f';
