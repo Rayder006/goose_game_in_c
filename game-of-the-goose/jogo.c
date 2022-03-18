@@ -2,7 +2,6 @@
 #include <time.h>
 #include <stdlib.h>
 #include "animacoes.c"
-#include <locale.h>
 
 int andou;
 double time_clock, time_clock2;
@@ -57,11 +56,13 @@ int main(void){
         jogadores[i].stasis_rounds_left=0;
         jogadores[i].casa=0;
         jogadores[i].direcao='f';
+        //cheat do jogo
         pular=strcmp(cheat, jogadores[i].nome);
 
         if(pular==0){
             goto end; /* Goto implementado para ir direto ao final do jogo. É ativado se um dos players se chamar "Valeria" */
         }
+        //fim do cheat
         printf("Oi %s, voce sera o jogador numero %d\n", jogadores[i].nome, jogadores[i].id);
         if (i==num_jogadores-2 && num_jogadores!=2) printf("Finalmente, o ultimo nome:\n");
         else if(i!=num_jogadores-1) printf("Agora o proximo:\n");

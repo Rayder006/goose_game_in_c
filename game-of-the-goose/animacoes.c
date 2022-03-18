@@ -28,6 +28,25 @@ void leAlbergue();
 void lePrisao();
 void leMorte();
 
+//funcao so pra mostrar as animações. Inclua na main pra ficar mais facil de visualizá-las.
+void mostraAnimacoes(){
+    leSprites();
+    animacaoPonte();
+    getchar();
+    animacaoAlbergue();
+    getchar();
+    animacaoPoco();
+    getchar();
+    animacaoLabirinto();
+    getchar();
+    animacaoPrisao();
+    getchar();
+    animacaoMorte();
+    getchar();
+    animacaoGanso();
+    getchar();
+}
+
 void leSprites(){
     lePonte();
     lePoco();
@@ -403,45 +422,57 @@ void animacaoLabirinto(){
             puts(lab0);
             break;
         case 2:
+            printf("\e[1;1H\e[2J");
             puts(lab1);
             break;
         case 3:
+            printf("\e[1;1H\e[2J");
             puts(lab2);
             break;
         case 4:
+            printf("\e[1;1H\e[2J");
             puts(lab3);
             break;
         case 5:
+            printf("\e[1;1H\e[2J");
             puts(lab4);
             break;
         case 6:
+            printf("\e[1;1H\e[2J");
             puts(lab5);
             break;
         case 7:
+            printf("\e[1;1H\e[2J");
             puts(lab6);
             break;
         case 8:
+            printf("\e[1;1H\e[2J");
             puts(lab7);
             break;
         case 9:
+            printf("\e[1;1H\e[2J");
             puts(lab8);
             break;
         case 10:
+            printf("\e[1;1H\e[2J");
             puts(lab9);
             break;
         case 11:
+            printf("\e[1;1H\e[2J");
             puts(lab10);
             break;
         case 12:
+            printf("\e[1;1H\e[2J");
             puts(lab11);
             break;
         case 13:
+            printf("\e[1;1H\e[2J");
             puts(lab12);
             break;
         case 14:
+            printf("\e[1;1H\e[2J");
             puts(lab0);
             break;
-        
         default:
             break;
         }
